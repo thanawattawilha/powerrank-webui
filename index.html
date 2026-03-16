@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerRanks Web Editor</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <rect width="32" height="32" rx="8" fill="url(#logo-gradient)"/>
+                        <path d="M10 10H22M10 16H18M10 22H14" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+                        <defs>
+                            <linearGradient id="logo-gradient" x1="0" y1="0" x2="32" y2="32">
+                                <stop stop-color="#6366F1"/>
+                                <stop offset="1" stop-color="#8B5CF6"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span>PowerRanks</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-section="dashboard">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                        <rect x="11" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                        <rect x="2" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                        <rect x="11" y="11" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+                    </svg>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-item" data-section="ranks">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M10 2L12.5 7L18 7.5L14 11.5L15 17L10 14L5 17L6 11.5L2 7.5L7.5 7L10 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Ranks</span>
+                </button>
+                <button class="nav-item" data-section="players">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <circle cx="10" cy="7" r="3" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M4 16C4 13.5 7 12 10 12C13 12 16 13.5 16 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <span>Players</span>
+                </button>
+                <button class="nav-item" data-section="permissions">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M7 10L9 12L13 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Permissions</span>
+                </button>
+                <button class="nav-item" data-section="settings">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M10 13C11.6569 13 13 11.6569 13 10C13 8.34315 11.6569 7 10 7C8.34315 7 7 8.34315 7 10C7 11.6569 8.34315 13 10 13Z" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M17 10C17 10.5 16.9 11 16.8 11.5L18.5 13L17 15L15 14.2C14.6 14.5 14.2 14.8 13.8 15L13.5 17H10.5L10.2 15C9.8 14.8 9.4 14.5 9 14.2L7 15L5.5 13L7.2 11.5C7.1 11 7 10.5 7 10C7 9.5 7.1 9 7.2 8.5L5.5 7L7 5L9 5.8C9.4 5.5 9.8 5.2 10.2 5L10.5 3H13.5L13.8 5C14.2 5.2 14.6 5.5 15 5.8L17 5L18.5 7L16.8 8.5C16.9 9 17 9.5 17 10Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Settings</span>
+                </button>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="session-info">
+                    <span class="session-label">Session:</span>
+                    <code id="sessionDisplay">-</code>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <div class="top-bar-left">
+                    <h1 id="pageTitle">Dashboard</h1>
+                </div>
+                <div class="top-bar-right">
+                    <div class="status-badge" id="connectionStatus">
+                        <span class="status-dot"></span>
+                        <span>Ready</span>
+                    </div>
+                    <button class="btn btn-primary" id="btnUpload">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M9 11.5L6 8.5M9 11.5L12 8.5M9 11.5V3.5M14.5 14.5H3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Upload
+                    </button>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Dashboard Section -->
+                <section class="section active" id="section-dashboard">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 2L15 8L21 9L17 14L18 20L12 17L6 20L7 14L3 9L9 8L12 2Z" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="statRanks">0</span>
+                                <span class="stat-label">Total Ranks</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #F093FB 0%, #F5576C 100%);">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="7" r="4" stroke="white" stroke-width="2"/>
+                                    <path d="M20 21C20 17 16 15 12 15C8 15 4 17 4 21" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="statPlayers">0</span>
+                                <span class="stat-label">Total Players</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #4FACFE 0%, #00F2FE 100%);">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <rect x="3" y="3" width="18" height="18" rx="3" stroke="white" stroke-width="2"/>
+                                    <path d="M9 12L11 14L15 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="statPermissions">0</span>
+                                <span class="stat-label">Permissions</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #43E97B 0%, #38F9D7 100%);">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                    <path d="M4 4V20H20" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M20 4L10 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            <div class="stat-info">
+                                <span class="stat-value" id="statSize">0 KB</span>
+                                <span class="stat-label">Data Size</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions">
+                        <h2>Quick Actions</h2>
+                        <div class="action-grid">
+                            <button class="action-card" id="btnQuickAddRank">
+                                <div class="action-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <span>Add New Rank</span>
+                            </button>
+                            <button class="action-card" id="btnQuickAddPlayer">
+                                <div class="action-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                                        <path d="M20 21C20 17 16 15 12 15C8 15 4 17 4 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    </svg>
+                                </div>
+                                <span>Add Player</span>
+                            </button>
+                            <button class="action-card" id="btnLoadData">
+                                <div class="action-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M17 8L12 3L7 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 3V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <span>Load Data</span>
+                            </button>
+                            <button class="action-card" id="btnExportData">
+                                <div class="action-icon">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M7 10L12 15L17 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </div>
+                                <span>Export JSON</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="load-section">
+                        <h2>Connection</h2>
+                        <div class="load-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>WebSocket Server</label>
+                                    <input type="text" id="wsServer" placeholder="ws://your-server-ip:8080" />
+                                    <small style="color: var(--text-muted); margin-top: 4px; display: block;">
+                                        Set webeditor.websocket-port in config.yml to enable
+                                    </small>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <button class="btn btn-primary" id="btnConnectWS">
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                        <path d="M5 12C5 12 7 15 9 15C11 15 13 12 13 12M5 6C5 6 7 3 9 3C11 3 13 6 13 6M9 9V15M9 3V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Connect
+                                </button>
+                                <button class="btn btn-secondary" id="btnLoadKey">
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                        <path d="M14.5 10.5V15C14.5 15.5304 14.2893 16.0391 13.9142 16.4142C13.5391 16.7893 13.0304 17 12.5 17H5.5C4.96957 17 4.46086 16.7893 4.08579 16.4142C3.71071 16.0391 3.5 15.5304 3.5 15V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M9 3V11M6 6L9 3L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Load JSON File
+                                </button>
+                                <button class="btn btn-secondary" id="btnLoadClipboard">
+                                    Load from Clipboard
+                                </button>
+                            </div>
+                            <div id="wsStatus" class="ws-status" style="margin-top: 12px; display: none;">
+                                <span class="status-dot"></span>
+                                <span id="wsStatusText">Disconnected</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Ranks Section -->
+                <section class="section" id="section-ranks">
+                    <div class="section-header">
+                        <div class="search-box">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <circle cx="7.5" cy="7.5" r="5" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M11.5 11.5L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            <input type="text" id="rankSearch" placeholder="Search ranks..." />
+                        </div>
+                        <button class="btn btn-primary" id="btnAddRank">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M9 5V13M5 9H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            Add Rank
+                        </button>
+                    </div>
+                    <div class="cards-grid" id="ranksContainer"></div>
+                </section>
+
+                <!-- Players Section -->
+                <section class="section" id="section-players">
+                    <div class="section-header">
+                        <div class="search-box">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <circle cx="7.5" cy="7.5" r="5" stroke="currentColor" stroke-width="1.5"/>
+                                <path d="M11.5 11.5L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            <input type="text" id="playerSearch" placeholder="Search players..." />
+                        </div>
+                        <button class="btn btn-primary" id="btnAddPlayer">
+                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M9 5V13M5 9H13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            </svg>
+                            Add Player
+                        </button>
+                    </div>
+                    <div class="players-list" id="playersContainer"></div>
+                </section>
+
+                <!-- Permissions Section -->
+                <section class="section" id="section-permissions">
+                    <div class="permissions-layout">
+                        <div class="permissions-sidebar">
+                            <h3>Permission Suggestions</h3>
+                            <div class="search-box">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M10 10L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                <input type="text" id="permSearch" placeholder="Search permissions..." />
+                            </div>
+                            <div class="perm-tags" id="permTags"></div>
+                        </div>
+                        <div class="permissions-main">
+                            <h3>Server Permissions</h3>
+                            <div class="perm-list" id="serverPerms"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section class="section" id="section-settings">
+                    <div class="settings-container">
+                        <div class="settings-card">
+                            <h3>Data Management</h3>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <span class="setting-label">Export Data</span>
+                                    <span class="setting-desc">Download all data as JSON file</span>
+                                </div>
+                                <button class="btn btn-secondary" id="btnDownload">Download JSON</button>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <span class="setting-label">Save Edited File</span>
+                                    <span class="setting-desc">Save edited data to load in server</span>
+                                </div>
+                                <button class="btn btn-primary" id="btnUpload">
+                                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                        <path d="M14.5 10.5V15C14.5 15.5304 14.2893 16.0391 13.9142 16.4142C13.5391 16.7893 13.0304 17 12.5 17H5.5C4.96957 17 4.46086 16.7893 4.08579 16.4142C3.71071 16.0391 3.5 15.5304 3.5 15V10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M9 3V11M6 6L9 3L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Save File
+                                </button>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <span class="setting-label">Copy to Clipboard</span>
+                                    <span class="setting-desc">Copy JSON to clipboard</span>
+                                </div>
+                                <button class="btn btn-secondary" id="btnCopy">Copy JSON</button>
+                            </div>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <span class="setting-label">Manual JSON Input</span>
+                                    <span class="setting-desc">Paste JSON data manually</span>
+                                </div>
+                                <button class="btn btn-secondary" id="btnApplyJSON">Apply JSON</button>
+                            </div>
+                            <textarea id="jsonInput" rows="6" placeholder='{"serverdata":...}'></textarea>
+                        </div>
+
+                        <div class="settings-card">
+                            <h3>External Permissions</h3>
+                            <div class="setting-item">
+                                <div class="setting-info">
+                                    <span class="setting-label">Merge Permissions</span>
+                                    <span class="setting-desc">Add permissions from other plugins</span>
+                                </div>
+                                <button class="btn btn-secondary" id="btnMergePerms">Merge</button>
+                            </div>
+                            <textarea id="extraPerms" rows="4" placeholder="worldguard.region.bypass&#10;customplugin.*"></textarea>
+                        </div>
+
+                        <div class="settings-card">
+                            <h3>How to Use</h3>
+                            <div class="steps-list">
+                                <div class="step-item">
+                                    <div class="step-number">1</div>
+                                    <div class="step-content">
+                                        <strong>In-game:</strong> Use <code>/webeditor start</code> to export data
+                                    </div>
+                                </div>
+                                <div class="step-item">
+                                    <div class="step-number">2</div>
+                                    <div class="step-content">
+                                        <strong>Here:</strong> Click "Load JSON File" and select the exported file
+                                    </div>
+                                </div>
+                                <div class="step-item">
+                                    <div class="step-number">3</div>
+                                    <div class="step-content">
+                                        <strong>Edit:</strong> Make your changes to ranks and players
+                                    </div>
+                                </div>
+                                <div class="step-item">
+                                    <div class="step-number">4</div>
+                                    <div class="step-content">
+                                        <strong>Save:</strong> Click "Save File" to download edited JSON
+                                    </div>
+                                </div>
+                                <div class="step-item">
+                                    <div class="step-number">5</div>
+                                    <div class="step-content">
+                                        <strong>In-game:</strong> Use <code>/webeditor load &lt;filename&gt;</code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modalContent">
+            <div class="modal-header">
+                <h3 id="modalTitle">Modal Title</h3>
+                <button class="modal-close" id="modalClose">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M15 5L5 15M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-footer" id="modalFooter"></div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
